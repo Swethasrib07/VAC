@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linear Search Analyzer</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f4f4;
+    margin:0;
+    padding:30px;
+}
+
+.container{
+    max-width:700px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+h1{
+    text-align:center;
+    color:#2c3e50;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    font-size:16px;
+}
+
+button{
+    padding:10px 15px;
+    margin:5px;
+    cursor:pointer;
+    border:none;
+    border-radius:5px;
+    background:#3498db;
+    color:white;
+    font-size:15px;
+}
+
+button:hover{
+    background:#2980b9;
+}
+
+#output{
+    margin-top:20px;
+    padding:15px;
+    background:#ecf0f1;
+    border-radius:8px;
+    white-space:pre-line;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>Linear Search Analyzer</h1>
+
+<label>Enter Array (comma separated)</label>
+<input type="text" id="arrayInput" placeholder="10,20,30,40,50">
+
+<button onclick="createArray()">Create Array</button>
+
+<hr>
+
+<label>Search Element</label>
+<input type="number" id="searchInput">
+
+<button onclick="linearSearch()">Search</button>
+
+<button onclick="displayArray()">Display Array</button>
+<button onclick="statistics()">Statistics</button>
+<button onclick="sortArray()">Sort</button>
+<button onclick="reverseArray()">Reverse</button>
+<button onclick="removeDuplicates()">Remove Duplicates</button>
+<button onclick="evenOdd()">Even & Odd</button>
+<button onclick="insertElement()">Insert</button>
+<button onclick="deleteElement()">Delete</button>
+
+<div id="output"></div>
+
+</div>
+
+<script>
+
+let data=[];
+
+function show(msg){
+document.getElementById("output").innerHTML=msg;
+}
+
+function createArray(){
+
+let input=document.getElementById("arrayInput").value;
+
+if(input===""){
+show("Please enter array.");
+return;
+}
+
+data=input.split(",").map(Number);
+
+show("Array Created Successfully!\n\n"+data);
+
+}
+
+function displayArray(){
+
+if(data.length==0){
+show("Array is Empty.");
+return;
+}
+
+show("Current Array:\n"+data);
+
+}
+
+function linearSearch(){
+
+if(data.length==0){
+show("Create Array First.");
+return;
+}
+
+let target=Number(document.getElementById("searchInput").value);
+
+let start=performance.now();
+
+let positions=[];
+
+for(let i=0;i<data.length;i++){
+
+if(data[i]==target){
+
+positions.push(i);
+
+}
+
+}
+
+let end=performance.now();
+
+if(positions.length>0){
+
+show(
+"SEARCH RESULT\n\n"+
+"Element Found : "+target+
+"\nFirst Position : "+positions[0]+
+"\nAll Positions : "+positions+
+"\nOccurrences : "+positions.length+
+"\nExecution Time : "+(end-start).toFixed(6)+" ms"
+);
+
+}
+
+else{
+
+show(
+"Element Not Found\nExecution Time : "+(end-start).toFixed(6)+" ms"
+);
+
+}
+
+}
+
+function statistics(){
+
+if(data.length==0){
+
+show("Array Empty.");
+
+return;
+
+}
+
+let sum=0;
+
+for(let n of data)
+sum+=n;
+
+let min=Math.min(...data);
+
+let max=Math.max(...data);
+
+let avg=(sum/data.length).toFixed(2);
+
+show(
+"ARRAY STATISTICS\n\n"+
+"Total Elements : "+data.length+
+"\nMinimum : "+min+
+"\nMaximum : "+max+
+"\nSum : "+sum+
+"\nAverage : "+avg
+);
+
+}
+
+function sortArray(){
+
+data.sort((a,b)=>a-b);
+
+show("Sorted Array\n\n"+data);
+
+}
+
+function reverseArray(){
+
+data.reverse();
+
+show("Reversed Array\n\n"+data);
+
+}
+
+function removeDuplicates(){
+
+data=[...new Set(data)];
+
+show("Duplicates Removed\n\n"+data);
+
+}
+
+function evenOdd(){
+
+let even=[];
+
+let odd=[];
+
+for(let n of data){
+
+if(n%2==0)
+even.push(n);
+
+else
+odd.push(n);
+
+}
+
+show(
+"Even Numbers\n"+even+
+"\n\nOdd Numbers\n"+odd
+);
+
+}
+
+function insertElement(){
+
+let value=prompt("Enter Element");
+
+if(value!=null){
+
+data.push(Number(value));
+
+show("Element Inserted\n\n"+data);
+
+}
+
+}
+
+function deleteElement(){
+
+let value=Number(prompt("Enter Element"));
+
+let index=data.indexOf(value);
+
+if(index!=-1){
+
+data.splice(index,1);
+
+show("Element Deleted\n\n"+data);
+
+}
+
+else{
+
+show("Element Not Found.");
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
